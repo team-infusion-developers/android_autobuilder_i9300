@@ -1,11 +1,11 @@
 #! /bin/bash
 
-#      _____  __________      
-#  __ / / _ \/ ___/_  _/__ ___ ___ _
-# / // / // / /__  / // -_) _ `/  ' \ 
-# \___/____/\___/ /_/ \__/\_,_/_/_/_/ 
 #
-# Copyright 2018 JDCTeam
+# The Invincible Team for deprecated phones!
+#
+# Team InFusion
+#
+# Copyright 2018 Team InFusion
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,14 +20,14 @@
 # limitations under the License.
 
 
-TEAM_NAME="JDCTeam"
-TARGET=jflte
+TEAM_NAME="Team InFusion"
+TARGET=jfvelte
 LOS_VER=16.0
-VERSION_BRANCH=opt-cm-16.0
-OUT="out/target/product/jflte"
+VERSION_BRANCH=lineage-16.0
+OUT="out/target/product/jfvelte"
 AROMA_DIR=aroma
 ROM_VERSION=10
-export OPTIMIZED_LINEAGEOS_VERSION=$ROM_VERSION
+export LINEAGEOS_VERSION=$ROM_VERSION
 export ANDROID_HOME=~/Android/Sdk
 
 buildTest()
@@ -37,7 +37,7 @@ buildTest()
 	time schedtool -B -n 1 -e ionice -n 1 make otapackage -j10 "$@"
 	if [ "$?" == 0 ]; then
 		echo "Build done"
-		mv $OUT/lineage*.zip $OUT/OptLos16-V$ROM_VERSION-$z.zip 
+		mv $OUT/lineage*.zip $OUT/llineage-16.0-V$ROM_VERSION-$z.zip 
 	else
 		echo "Build failed"
 	fi
@@ -49,7 +49,7 @@ buildRelease()
 	time schedtool -B -n 1 -e ionice -n 1 make otapackage -j10 "$@"
 	if [ "$?" == 0 ]; then
 		echo "Build done"
-		mv $OUT/lineage*.zip $OUT/Optimized-LineageOS-$LOS_VER-Version-$ROM_VERSION.zip 
+		mv $OUT/lineage*.zip $OUT/LineageOS-$LOS_VER-Version-$ROM_VERSION.zip 
 	else
 		echo "Build failed"
 	fi
@@ -166,7 +166,7 @@ createRemotes ()
 	#vendor/jdc
 	cd vendor/jdc
 	git remote remove origin
-	git remote add origin git@github.com:jdcteam/android_vendor_jdc-private.git
+	git remote add origin git@github.com:team-infusion-developers/android_vendor_jf.git
 	croot
 	#vendor/samsung
 	cd vendor/samsung
@@ -178,20 +178,10 @@ createRemotes ()
 	git remote remove origin
 	git remote add origin git@github.com:jdcteam/android_vendor_lineage.git
 	croot
-	#device/samsung/jflte
-	cd device/samsung/jflte
+	#device/samsung/jfvelte
+	cd device/samsung/jfvelte
 	git remote remove origin
-	git remote add origin git@github.com:jdcteam/android_device_samsung_jfltepie-private.git
-	croot
-	#aroma
-	cd AromaInstaller
-	git remote remove origin
-	git remote add origin git@github.com:jdcteam/AromaInstaller.git
-	croot
-	#adiutor
-	cd buffcoreapp
-	git remote remove origin
-	git remote add origin git@github.com:jdcteam/BuffCoreApp.git
+	git remote add origin git@github.com:team-infusion-developers/android_device_samsung_jfvelte.git
 	croot
 	#frameworks/opt/telephony
 	cd frameworks/opt/telephony
@@ -251,7 +241,7 @@ createRemotes ()
 	# kernel
 	cd kernel/samsung/jf
 	git remote remove origin
-	git remote add origin git@github.com:jdcteam/android_kernel_samsung_jf-pieForCommunity.git
+	git remote add origin git@github.com:jdcteam/android_kernel_samsung_jf.git
 	croot
 	# native SU
 	cd system/extras/su
@@ -278,11 +268,6 @@ createRemotes ()
 	git remote remove origin
 	git remote add origin git@github.com:jdcteam/android_frameworks_native.git
 	croot
-	#overlays
-	cd packages/overlays/Lineage
-	git remote remove origin
-	git remote add origin git@github.com:jdcteam/android_packages_overlays_Lineage.git
-	croot
 	# Recorder
 	cd packages/apps/Recorder
 	git remote remove origin
@@ -295,27 +280,10 @@ createRemotes ()
 	croot
 	
 	
-	#Fix up manifest
-	cd .repo/manifests
-	git branch -D opt-cm-16.0
-	git checkout -b opt-cm-16.0
-	git remote remove origin
-	git remote add origin git@github.com:jdcteam/manifests.git
-	croot
-
-
-	echo " "
-	echo "Remotes refreshed..."
-	echo " " 
-
+	
 }
 
-buildAdiutor () {
-	croot
-	cd kerneladiutor
-	./gradlew clean
-	./gradlew build
-}
+
 echo " "
 echo -e "\e[1;91mWelcome to the $TEAM_NAME build script"
 echo -e "\e[0m "
@@ -332,11 +300,9 @@ select build in "Upstream merge" "Build Test" "Build Release" "Add Aroma Install
 		"Upstream merge" ) upstreamMerge; getBuild;anythingElse; break;;
 		"Build Test" ) buildTest; anythingElse; break;;
 		"Build Release" ) buildRelease; anythingElse; break;;
-		"Add Aroma Installer to ROM" ) useAroma; anythingElse; break;;
 		"Refresh build directory" ) getBuild; anythingElse; break;;
 		"Refresh remotes" ) createRemotes; anythingElse; break;;
 		"Produce audit2allow results" ) audit; anythingElse; break;;
-		"Build Kernel Adiutor" ) buildAdiutor; anythingElse; break;;
 		"Exit" ) exit 0; break;;
 	esac
 done
