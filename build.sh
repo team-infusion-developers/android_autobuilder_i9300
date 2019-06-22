@@ -241,7 +241,7 @@ createRemotes ()
 	# kernel
 	cd kernel/samsung/jf
 	git remote remove origin
-	git remote add origin git@github.com:jdcteam/android_kernel_samsung_jf.git
+	git remote add origin git@github.com:team-infusion-developers/android_kernel_samsung_jf.git
 	croot
 	# native SU
 	cd system/extras/su
