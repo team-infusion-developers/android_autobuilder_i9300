@@ -1,3 +1,3 @@
 Copyright 2018 - Team InFusion
 --------------
-Addons/common files for ROMs
+[ALPHA] [SCRIPT] Automatic LineageOS 16.0 ROM builder for i9300
